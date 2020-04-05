@@ -2,14 +2,59 @@
 //
 
 #include <iostream>
+#include <time.h>
+#include <stdlib.h>
 #include "Cars.h"
+#define WASH_TIME 3
 
 int main()
 {
-	Cars s1;
-	s1.QueueItem(100);
-	s1.QueueItem(200);
-	s1.DisplayList();
+	int probability;
+	cout << "Probability of a Car Showing up: ";
+	cin >> probability;
+
+	int hours;
+	cout << "Hours (In Minutes) you would like to simulate: ";
+	cin >> hours;
+
+		// Seed the random generator (near the top)
+		srand(time(NULL));
+		// For each minute, get a random value.  If you do it like this,
+		// you get a number between 0-99
+		
+
+		int nCarsWashed = 0;
+		int waitingCar = 0;
+	// Below we check if it's within the probability
+	// nSimCarProbPercentage is the percentage entered by the user
+		Cars s1;
+		for (int i = 0; i < hours; i++)
+		{
+			int q = rand() % 100;
+
+			if (i % 3 == 0) {
+
+				if (q < probability)
+				{
+					// Process a car into the queue
+					s1.QueueItem(i);
+					nCarsWashed = nCarsWashed + 1;
+				}
+			}
+			else {
+				waitingCar = waitingCar + 1;
+			}
+	
+			s1.DequeueItem();
+		}
+		
+		int avgwaitTime = hours / nCarsWashed;
+		cout << "Number of Cars Washed: " << nCarsWashed << endl;
+		cout << "Average wait time during the simulation: " << avgwaitTime << endl;
+		cout << "Number of Cars in line at close of simulation: " << waitingCar << endl;
+
+		
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

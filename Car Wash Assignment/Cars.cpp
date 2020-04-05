@@ -1,22 +1,10 @@
 #include <iostream>
-#include <time.h>
-#include <stdlib.h>
+
 #include "Cars.h"
 #include "Node.h"
 using namespace std;
 
 
-// Seed the random generator (near the top)
-srand(time(NULL));
-
-// For each minute, get a random value.  If you do it like this,
-// you get a number between 0-99
-int q = rand() % 100;
-// Below we check if it's within the probability
-// nSimCarProbPercentage is the percentage entered by the user
-
-if (q < nSimCarProbPercentage)
-{
 	// Process a car into the queue
 	void Cars::QueueItem(int newValue)
 	{
@@ -35,7 +23,7 @@ if (q < nSimCarProbPercentage)
 		}
 		cout << "Queued Item" << endl;
 	}
-}
+
 
 /// <summary>
 /// Dequeues the next item in the queue
