@@ -31,10 +31,16 @@ using namespace std;
 /// <returns>The value of the next node</returns>
 int Cars::DequeueItem()
 {
-	// Is empty?
-	if (_head == NULL)
-		return -1;
+	try {
+		// Is empty?
+		if (_head == NULL)
+			throw exception("Cannot dequeue because the queue is empty");
 
+	}
+	catch (exception & ex)
+	{
+		cout << "Error Found: " << ex.what() << endl;
+	}
 	Node* temp = _head;
 	_head = temp->next;
 
