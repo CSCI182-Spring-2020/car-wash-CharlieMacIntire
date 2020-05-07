@@ -9,6 +9,10 @@
 
 int main()
 {
+
+	int enterStartTime = 0;
+	int carQueue = 0;
+	int startWash = 0;
 	int probability;
 	cout << "Probability of a Car Showing up: ";
 	cin >> probability;
@@ -22,36 +26,65 @@ int main()
 		// For each minute, get a random value.  If you do it like this,
 		// you get a number between 0-99
 		
-
+		int Totaltime = 0;
 		int nCarsWashed = 0;
 		int waitingCar = 0;
+		int waitTimeforCar = 0;
+		bool isOpen = true;
+		int time = 0;
 	// Below we check if it's within the probability
 	// nSimCarProbPercentage is the percentage entered by the user
 		Cars s1;
-		for (int i = 0; i < hours; i++)
-		{
-			int q = rand() % 100;
+		try {
 
-			if (i % 3 == 0) {
+			while (time <= hours)
+			{
+
+				int q = rand() % 100;
 
 				if (q < probability)
 				{
-					// Process a car into the queue
-					s1.QueueItem(i);
-					nCarsWashed = nCarsWashed + 1;
+
+					carQueue++;
+					enterStartTime = time;
+					s1.QueueItem(enterStartTime);
+					if (isOpen == true)
+					{
+						waitTimeforCar = time = s1.DequeueItem();
+						carQueue--;
+						Totaltime = Totaltime + waitTimeforCar;
+						nCarsWashed++;
+						isOpen = false;
+						startWash = 0;
+
+					}
+
 				}
+
+				if (isOpen == false)
+				{
+					startWash++;
+					if (startWash % (WASH_TIME * 60) == 0)
+						isOpen = true;
+
+				}
+				time++;
+
 			}
-			else {
-				waitingCar = waitingCar + 1;
-			}
-	
-			s1.DequeueItem();
+			if (nCarsWashed == 0)
+				throw exception("Nothing was queued");
 		}
+		catch (exception & ex)
+		{
+			cout << "Error found: " << ex.what() << endl;
+		}
+
 		
-		int avgwaitTime = hours / nCarsWashed;
+
+		int avgwaitTime = Totaltime / nCarsWashed;
 		cout << "Number of Cars Washed: " << nCarsWashed << endl;
 		cout << "Average wait time during the simulation: " << avgwaitTime << endl;
-		cout << "Number of Cars in line at close of simulation: " << waitingCar << endl;
+		cout << "Number of Cars in line at close of simulation: " << carQueue << endl;
 
 		
 
